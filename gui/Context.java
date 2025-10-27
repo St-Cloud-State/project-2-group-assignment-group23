@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-import State;
+import java.util.Scanner;
 
 
 public class Context {
@@ -80,4 +80,10 @@ public class Context {
     public void run() {
         this.current_state.enter_state();
     }
+
+
+    // Centralize IO operations for easy life
+    public void print(String str) {System.out.print(str + "\n");}
+    private static Scanner scanner = new Scanner(System.in);
+    public String input() {return scanner.nextLine();}
 }

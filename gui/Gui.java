@@ -1,9 +1,3 @@
-import Context;
-import Login_State;
-import Manager_State;
-import Clerk_State;
-import Client_State;
-
 public class Gui {
     public static void main(String[] args) {
         // Create the states ORDER MATTERS!!!

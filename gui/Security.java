@@ -4,7 +4,7 @@ public class Security {
 
     public Security() {}
 
-    public bool verify_password(String password) {
+    public boolean verify_password(String password) {
         return true;
     }
 
