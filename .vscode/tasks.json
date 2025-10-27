@@ -4,11 +4,8 @@
         {
             "label": "Compile Java",
             "type": "shell",
-            "command": "javac -g -d build ./backend/*.java ./gui/*.java",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "command": "bash -c \"mkdir -p build && javac -g -d build backend/*.java gui/*.java\"",
+            "group": { "kind": "build", "isDefault": true },
             "problemMatcher": []
         }
     ]
