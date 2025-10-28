@@ -82,8 +82,13 @@ public class Context {
     }
 
 
+    // Security handler
+    public static final Security security_handle = new Security("manager", "salesclerk");
+
+
     // Centralize IO operations for easy life
     public void print(String str) {System.out.print(str + "\n");}
     private static Scanner scanner = new Scanner(System.in);
     public String input() {return scanner.nextLine();}
+    public void clear_console() {System.out.print("\033[H\033[2J"); System.out.flush();}
 }

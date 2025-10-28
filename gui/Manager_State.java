@@ -4,11 +4,13 @@ public class Manager_State extends State{
     }
 
     public void enter_state() {
-        Context.get_instance().print("Enter Manager State");
-        Context.get_instance().request_state(2);
+        Context.get_instance().clear_console();
+        Context.get_instance().print("Entered Manager State, Press enter");
+        Context.get_instance().input();
+        Context.get_instance().request_state(0);
     }
 
     public void exit_state() {
-        Context.get_instance().print("Exit Manager State");
+        Context.get_instance().print("Exiting Manager State");
     }
 }
