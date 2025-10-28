@@ -15,6 +15,8 @@ public class Security {
         Context C = Context.get_instance();
         C.clear_console();
 
+        int client_id = -1;
+
         String pw = null;
         switch (ent) {
             case MANAGER: {
@@ -26,8 +28,7 @@ public class Security {
                 break;
             }
             case CLIENT: {
-                C.print("Input Client ID:");
-                pw = get_client_password(C.input());
+                pw = get_client_password(client_id);
                 break;
             }
             default: {
@@ -42,13 +43,40 @@ public class Security {
 
             if (input.equals(pw)) {
                 ret = true;
+
+                if (ent == Entity.CLIENT) {
+                    Client_State.set_current_client_id(client_id);
+                }
+
             }
         }
 
         return ret;
     }
 
-    private String get_client_password(String client) {
-        return "fake_password";
+    private String get_client_password(int client_id) {
+        Context C = Context.get_instance();
+        C.print("Input Client ID:");
+
+        try {
+            client_id = Integer.parseInt(C.input()); // Will this scope how I want it to?
+
+            for (Client client : Client.master_client_list) {
+                if (client.get_uid() == client_id) {
+                    return "fake_password"; // return C.get_password();
+                }
+            }
+        } catch (NumberFormatException e) {
+            C.print("That wasn't a number. How did you mess that up? This shouldn't be that difficult.");
+        }
+
+        C.print("Couldn't find that one!");
+
+        // Just pause for a moment so the user can read that
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {}
+
+        return null;
     }
 }
