@@ -30,6 +30,8 @@ public class Login_State extends State{
                 break;
             }
             case "4": {
+                C.clear_console();
+                C.print("Goodbye!");
                 return; // Returning here actually returns us to main (I think, who really knows).
             }
             default:  {

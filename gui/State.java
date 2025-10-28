@@ -22,7 +22,7 @@ public abstract class State {
 
 
     // Methods called by the context manager to transition into a state.
-    public void enter_state() {
+    public final void enter_state() {
         if (this.headless) {
             this.enter_no_gui();
         } else {
@@ -34,7 +34,7 @@ public abstract class State {
 
 
     // Methods called by the context manager to transition out of a state.
-    public void exit_state() {
+    public final void exit_state() {
         if (this.headless) {
             this.exit_no_gui();
         } else {

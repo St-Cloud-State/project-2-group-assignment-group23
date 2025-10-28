@@ -3,14 +3,13 @@ public class Client_State extends State{
         super(new int[]{0});
     }
 
-    public void enter_state() {
-        Context.get_instance().clear_console();
-        Context.get_instance().print("Enter Client State, Press enter");
-        Context.get_instance().input();
-        Context.get_instance().request_state(0);
-    }
+    @Override
+    protected void enter_no_gui() {
+        Context C = Context.get_instance();
 
-    public void exit_state() {
-        Context.get_instance().print("Exiting Client State");
+        C.clear_console();
+        C.print("Entered Client State, Press enter");
+        C.input();
+        C.request_state(0);
     }
 }

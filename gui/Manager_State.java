@@ -3,14 +3,13 @@ public class Manager_State extends State{
         super(new int[]{0, 2, 3});
     }
 
-    public void enter_state() {
-        Context.get_instance().clear_console();
-        Context.get_instance().print("Entered Manager State, Press enter");
-        Context.get_instance().input();
-        Context.get_instance().request_state(0);
-    }
+    @Override
+    protected void enter_no_gui() {
+        Context C = Context.get_instance();
 
-    public void exit_state() {
-        Context.get_instance().print("Exiting Manager State");
+        C.clear_console();
+        C.print("Entered Manager State, Press enter");
+        C.input();
+        C.request_state(0);
     }
 }
