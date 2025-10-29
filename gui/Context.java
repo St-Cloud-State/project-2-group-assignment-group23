@@ -82,6 +82,14 @@ public class Context {
     }
 
 
+    // Just pause for a moment so the user can read whatever is printed. Actually waits a sec and a half.
+    public void wait_a_sec() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {}
+    }
+
+
     // Security handler
     public static final Security security_handle = new Security("manager", "salesclerk");
 

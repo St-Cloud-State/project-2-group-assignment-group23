@@ -1,6 +1,6 @@
 public class Clerk_State extends State{
     public Clerk_State() {
-        super(new int[]{0, 3});
+        super(new int[]{0, 2, 3});
     }
 
     @Override
@@ -21,21 +21,89 @@ public class Clerk_State extends State{
 
         switch (C.input()) {
             case "1": {
+                C.print("Input Client Name: ");
+                String name = C.input();
+                C.print("Input Client Address: ");
+                String address = C.input();
+                Client.master_client_list.add(new Client(name, address));
+                next_state = 2; // Stay here
                 break;
             }
             case "2": {
+                for (Product p : Product.master_product_list) {
+                    C.print(p.toString());
+                }
+                C.print("Press Enter to Continue");
+                C.input();
+                next_state = 2; // Stay here
                 break;
             }
             case "3": {
+                for (Client client : Client.master_client_list) {
+                    C.print(client.toString());
+                }
+                C.print("Press Enter to Continue");
+                C.input();
+                next_state = 2; // Stay here
                 break;
             }
             case "4": {
+                for (Client client : Client.master_client_list) {
+                    if (client.get_balance() < 0) {
+                        C.print(client.toString());
+                    }
+                }
+                C.print("Press Enter to Continue");
+                C.input();
+                next_state = 2; // Stay here
                 break;
             }
             case "5": {
+                try {
+                    C.print("Input Client ID:");
+                    int client_id = Integer.parseInt(C.input());
+                    System.out.print("Input Amount Paid:");
+                    double payment = Double.parseDouble(C.input());
+
+                    boolean found = false;
+                    for (Client client : Client.master_client_list) {
+                        if (client.get_uid() == client_id) {
+                            found = true;
+                            C.print("Found Client: " + client);
+                            client.accept_payment(payment);
+                            break;
+                        }
+                    }
+
+                    if (found != true) {
+                        C.print("Client Not Found!");
+                    }
+                } catch (NumberFormatException e) {
+                    C.print("Invalid Value: " + e);
+                    C.wait_a_sec();
+                }
+                C.wait_a_sec(); // So they can read the responses
+                next_state = 2; // Stay here
                 break;
             }
             case "6": {
+                next_state = Context.security_handle.verify_password(Security.Entity.CLERK) ? 3 : 0;
+                if (next_state == 3) {
+                    try {
+                        C.print("Input Client ID:");
+
+                        int client_id = Integer.parseInt(C.input());
+
+                        if (!Client_State.set_current_client_id(client_id)) {
+                            next_state = 2; // Stay here
+                            C.print("Couldn't Find that one!");
+                            C.wait_a_sec();
+                        }
+                    } catch (NumberFormatException e) {
+                        C.print("Invalid Input: " + e);
+                        C.wait_a_sec();
+                    }
+                }
                 break;
             }
             case "7": {
@@ -43,6 +111,7 @@ public class Clerk_State extends State{
             }
             default:  {
                 C.print("Invalid Input");
+                C.wait_a_sec();
                 break;
             }
         }

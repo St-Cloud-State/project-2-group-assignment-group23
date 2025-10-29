@@ -72,10 +72,7 @@ public class Security {
 
         C.print("Couldn't find that one!");
 
-        // Just pause for a moment so the user can read that
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {}
+        C.wait_a_sec();
 
         return null;
     }

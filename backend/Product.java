@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
 
 public class Product {
     public static List<Product> master_product_list = new ArrayList<Product>();
@@ -35,14 +33,16 @@ public class Product {
 
 
     // Used to prompt user for purchases
-    public boolean prompt_user_to_purchase(Scanner scanner, Client client) {
-        System.out.print(this);
-        System.out.print("      Do you want to purchase this? Y/N   ");
+    public boolean prompt_user_to_purchase(Client client) {
+        Context C = Context.get_instance();
 
-        String input = scanner.nextLine().trim().toUpperCase();
+        C.print(this.toString());
+        C.print("      Do you want to purchase this? Y/N   ");
+
+        String input = C.input().trim().toUpperCase();
         while (!input.equals("Y") && !input.equals("N")) {
-            System.out.print("Please enter Y or N: ");
-            input = scanner.nextLine().trim().toUpperCase();
+            C.print("Please enter Y or N: ");
+            input = C.input().trim().toUpperCase();
         }
 
         if (input.equals("Y")) {

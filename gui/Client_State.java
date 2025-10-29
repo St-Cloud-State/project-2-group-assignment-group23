@@ -4,16 +4,19 @@ public class Client_State extends State{
     public static boolean set_current_client_id(int id) {
         boolean ret = false;
 
-        if (true) { // This needs to query Client.master_client_list to see if the client exists
-            Client_State.current_client_id = id;
-            ret = true;
+        for (Client client : Client.master_client_list) {
+            if (client.get_uid() ==  id) {
+                Client_State.current_client_id = id;
+                ret = true;
+                break;
+            }
         }
 
         return ret;
     }
 
     public Client_State() {
-        super(new int[]{0});
+        super(new int[]{0, 3});
     }
 
     @Override
@@ -32,31 +35,92 @@ public class Client_State extends State{
         C.print("  6. Place Order");
         C.print("  7. Logout");
 
-        switch (C.input()) {
-            case "1": {
-                break;
+        // First we want to parse this client's info from the master client list.
+        Client me = null;
+        for (Client client : Client.master_client_list) {
+            if (client.get_uid() == current_client_id) {
+                me = client;
             }
-            case "2": {
-                break;
-            }
-            case "3": {
-                break;
-            }
-            case "4": {
-                break;
-            }
-            case "5": {
-                break;
-            }
-            case "6": {
-                break;
-            }
-            case "7": {
-                break;  // Nothing to do here
-            }
-            default:  {
-                C.print("Invalid Input");
-                break;
+        }
+
+        // Shouldn't be possible to be here without a valid client id, but theres probably some wierd edge case I don't know about.
+        if (me != null) {
+            switch (C.input()) {
+                case "1": {
+                    C.print(me.toString());
+                    C.print("Press Enter to Continue");
+                    C.input();
+                    next_state = 3; // Stay here
+                    break;
+                }
+                case "2": {
+                    for (Product p : Product.master_product_list) {
+                        C.print(p.toString());
+                    }
+                    C.print("Press Enter to Continue");
+                    C.input();
+                    next_state = 3; // Stay here
+                    break;
+                }
+                case "3": {
+                    for (Invoice i : me.get_transaction_history()) {
+                        C.print(i.toString());
+                    }
+                    C.print("Press Enter to Continue");
+                    C.input();
+                    next_state = 3; // Stay here
+                    break;
+                }
+                case "4": {
+                    try {
+                        C.print("Input Product ID: ");
+                        int product_id = Integer.parseInt(C.input());
+                        Product product = null;
+                        for (Product p : Product.master_product_list) {
+                            if (p.get_uid() == product_id) {
+                                C.print("Found Product: " + p + "\n");
+                                product = p;
+                                break;
+                            }
+                        }
+
+                        if (product == null) {
+                            C.print("Product Not Found");
+                            C.wait_a_sec();
+                        } else {
+                            C.print("Input Quantity: ");
+                            int quantity = Integer.parseInt(C.input());
+                            me.add_to_wishlist(product, quantity);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.print("Invalid Input: " + e);
+                        C.wait_a_sec();
+                    }
+                    next_state = 3; // Stay here
+                    break;
+                }
+                case "5": {
+                    for (Product p : me.get_wishlist().get_product_list()) {
+                        C.print(p.toString());
+                    }
+                    C.print("Press Enter to Continue");
+                    C.input();
+                    next_state = 3; // Stay here
+                    break;
+                }
+                case "6": {
+                    me.process_order();
+                    next_state = 3; // Stay here
+                    break;
+                }
+                case "7": {
+                    break;  // Nothing to do here
+                }
+                default:  {
+                    C.print("Invalid Input");
+                    C.wait_a_sec();
+                    break;
+                }
             }
         }
 
