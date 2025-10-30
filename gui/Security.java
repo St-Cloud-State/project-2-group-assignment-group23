@@ -1,14 +1,17 @@
 public class Security {
+    // Default passwords
     private String manager_password;
     private String clerk_password;
 
-    public enum Entity {MANAGER, CLERK, CLIENT}
 
+    // Primary Constructor
     public Security(String manager_password, String clerk_password) {
         this.manager_password = manager_password;
         this.clerk_password = clerk_password;
     }
 
+    // Verifies the password of an Entity
+    public enum Entity {MANAGER, CLERK, CLIENT}
     public boolean verify_password(Entity ent) {
         boolean ret = false;
 
@@ -54,6 +57,7 @@ public class Security {
         return ret;
     }
 
+    // Used to fetch client specific passwords
     private String get_client_password(int client_id) {
         Context C = Context.get_instance();
         C.print("Input Client ID:");
@@ -63,7 +67,7 @@ public class Security {
 
             for (Client client : Client.master_client_list) {
                 if (client.get_uid() == client_id) {
-                    return "fake_password"; // return C.get_password();
+                    return "fake_password"; // needs to return C.get_password();
                 }
             }
         } catch (NumberFormatException e) {

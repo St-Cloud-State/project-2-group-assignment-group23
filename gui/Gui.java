@@ -1,4 +1,5 @@
 public class Gui {
+    // Program Entry Point
     public static void main(String[] args) {
         // Create the states ORDER MATTERS!!!
         State states[] = {

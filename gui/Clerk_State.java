@@ -1,8 +1,10 @@
 public class Clerk_State extends State{
+    // Primary Constructor
     public Clerk_State() {
         super(new int[]{0, 2, 3});
     }
 
+    // Enters the state without a gui
     @Override
     protected void enter_no_gui() {
         Context C = Context.get_instance();

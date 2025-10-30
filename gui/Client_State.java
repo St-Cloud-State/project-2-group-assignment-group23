@@ -1,6 +1,8 @@
 public class Client_State extends State{
     private static int current_client_id;
+    // Fetches the client id currently in use.
     public static int get_current_client_id() {return Client_State.current_client_id;}
+    // Sets the client id currently in use.
     public static boolean set_current_client_id(int id) {
         boolean ret = false;
 
@@ -15,10 +17,12 @@ public class Client_State extends State{
         return ret;
     }
 
+    // Primary Constructor
     public Client_State() {
         super(new int[]{0, 3});
     }
 
+    // Enters the state without a gui
     @Override
     protected void enter_no_gui() {
         Context C = Context.get_instance();
