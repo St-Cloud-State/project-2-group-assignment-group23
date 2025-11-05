@@ -1,3 +1,6 @@
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 public class Manager_State extends State{
     // Primary Constructor
     public Manager_State() {
@@ -43,7 +46,25 @@ public class Manager_State extends State{
                 break;
             }
             case "3": {
-                C.print("Not Implemented yet!");
+                try {
+                    C.print("Input Path to product csv file:");
+                    String path = C.input();
+                    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
+                    String in = br.readLine();
+                    br.close();
+                    String[] arr = in.split(",");
+                    for (int i = 0; i < arr.length/3; i++) {
+                        String name = arr[i++];
+                        int qty = Integer.parseInt(arr[i++]);
+                        double price = Double.parseDouble(arr[i]);  // Dont it here, loop will do it.
+                        Product p = new Product(name, qty, price);
+                        Product.add_to_mpl(p);
+                    }
+                } catch (Exception e) {
+                    C.print("Something went wrong. A better program would tell you what that was.");
+                    C.wait_a_sec();
+                }
+                
                 C.wait_a_sec();
                 next_state = 1; // Stay here
                 break;

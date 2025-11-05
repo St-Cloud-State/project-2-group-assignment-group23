@@ -3,6 +3,9 @@ import java.util.List;
 
 public class Product {
     public static List<Product> master_product_list = new ArrayList<Product>();
+    public static void add_to_mpl(Product p) {
+        
+    }
 
     // Ensures each uid is unique, would need to be stashed when a power cycle occurs
     private static int next_uid;
