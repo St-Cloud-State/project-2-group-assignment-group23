@@ -2,9 +2,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
+    // Contains a list of all products on hand.
     public static List<Product> master_product_list = new ArrayList<Product>();
-    public static void add_to_mpl(Product p) {
-        
+    public static void add_to_mpl(String name, int qty, double price) {
+        boolean found_it = false;
+        for (Product product : master_product_list) {
+            if (product.get_name() == name) {
+                found_it = true;
+                product.set_price(price);
+                product.set_qty(qty);
+                // Probs should check waitlists here
+                break;
+            }
+        }
+
+        if (found_it == false) {
+            master_product_list.add(new Product(name, qty, price));
+        }
     }
 
     // Ensures each uid is unique, would need to be stashed when a power cycle occurs

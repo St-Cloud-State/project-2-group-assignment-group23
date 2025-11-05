@@ -48,7 +48,7 @@ public class Manager_State extends State{
             case "3": {
                 try {
                     C.print("Input Path to product csv file:");
-                    String path = C.input();
+                    File path = new File(System.getProperty("user.dir"), C.input());
                     BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
                     String in = br.readLine();
                     br.close();
@@ -56,9 +56,8 @@ public class Manager_State extends State{
                     for (int i = 0; i < arr.length/3; i++) {
                         String name = arr[i++];
                         int qty = Integer.parseInt(arr[i++]);
-                        double price = Double.parseDouble(arr[i]);  // Dont it here, loop will do it.
-                        Product p = new Product(name, qty, price);
-                        Product.add_to_mpl(p);
+                        double price = Double.parseDouble(arr[i]);  // Dont iterate here, loop will do it.
+                        Product.add_to_mpl(name, qty, price);
                     }
                 } catch (Exception e) {
                     C.print("Something went wrong. A better program would tell you what that was.");
