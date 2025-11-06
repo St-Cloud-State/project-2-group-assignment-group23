@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class Manager_State extends State{
     // Primary Constructor
@@ -40,8 +41,36 @@ public class Manager_State extends State{
                 break;
             }
             case "2": {
-                C.print("Not Implemented yet!");
-                C.wait_a_sec();
+                try {
+                    C.print("Input Product UID:");
+                    int uid = Integer.parseInt(C.input());
+
+                    boolean found_it = false;
+                    for (Product p : Product.master_product_list) {
+                        if (p.get_uid() == uid) {
+                            found_it = true;
+
+                            Map<Client, Integer> waitlist = p.get_waitlist();
+                            for (Map.Entry<Client, Integer> entry : waitlist.entrySet()) {
+                                C.print("Client: " + entry.getKey() + " Waiting on qty: " + entry.getValue());
+                            }
+
+                            C.print("Press Enter to Continue:");
+                            C.input();
+
+                            break;
+                        }
+                    }
+
+                    if (found_it == false) {
+                        C.print("Didn't find that product.");
+                        C.wait_a_sec();
+                    }
+                } catch (NumberFormatException e) {
+                    C.print("Invalid Value: " + e);
+                    C.wait_a_sec();
+                }
+
                 next_state = 1; // Stay here
                 break;
             }

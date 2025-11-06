@@ -1,17 +1,24 @@
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Product {
     // Contains a list of all products on hand.
     public static List<Product> master_product_list = new ArrayList<Product>();
     public static void add_to_mpl(String name, int qty, double price) {
         boolean found_it = false;
+
+        if (name.startsWith("\"") && name.endsWith("\"") && name.length() >= 2) {
+            name = name.substring(1, name.length() - 1);
+        }
+
         for (Product product : master_product_list) {
-            if (product.get_name() == name) {
+            if (product.get_name().equals(name)) {
                 found_it = true;
                 product.set_price(price);
-                product.set_qty(qty);
-                // Probs should check waitlists here
+                qty = product.check_waitlist(qty);
+                product.set_qty(qty + product.get_qty());
                 break;
             }
         }
@@ -65,15 +72,15 @@ public class Product {
         if (input.equals("Y")) {
             for (Product p : master_product_list) {
                 if (this.uid == p.get_uid()) {
-                    int qty_on_hand = p.get_qty();
-                    int qty_purchasing = this.get_qty();
+                    int num_wanted = this.qty;
+                    int num_on_hand = p.get_qty();
 
-                    if (qty_purchasing > qty_on_hand) { // If we don't have enough
-                        p.set_qty(0);                   // Set our on hand qty to 0
-                        this.set_qty(qty_on_hand);      // Set the qty being purchased to  whatever we hand on hand
-                        client.add_to_waitlist(p, qty_purchasing - qty_on_hand);  // Add the client to our list of people who have this on order
+                    if (num_on_hand >= num_wanted) {
+                        p.set_qty(num_on_hand - num_wanted);
                     } else {
-                        p.set_qty(p.get_qty() - this.qty);  // Update the qty on hand
+                        p.set_qty(0);
+                        p.add_to_waitlist(client, num_wanted - num_on_hand);
+                        this.qty = num_on_hand;
                     }
 
                     return true;
@@ -84,12 +91,46 @@ public class Product {
     }
 
 
+    // Keeps track of clients waiting for this product
+    private Map<Client, Integer> waitlist;
+    public Map<Client, Integer> get_waitlist() {
+         return new LinkedHashMap<>(this.waitlist); // Returns a copy so that no one can modify
+    }
+    private void add_to_waitlist(Client client, int qty) {
+        this.waitlist.put(client, this.waitlist.getOrDefault(client, 0) + qty);
+    }
+    private int check_waitlist(int qty) {
+        int ret = qty;
+
+        Client c = this.waitlist.keySet().stream().findFirst().orElse(null);
+        while (c != null && ret > 0) {
+            int buy_this_many = this.waitlist.get(c);
+            this.waitlist.remove(c);
+
+            if (buy_this_many > ret) {
+                this.waitlist.put(c, buy_this_many - ret);
+                buy_this_many = ret;
+                ret = 0;
+            } else {
+                ret -= buy_this_many;
+            }
+
+            c.purchase_one(this, buy_this_many);
+
+            c = this.waitlist.keySet().stream().findFirst().orElse(null);
+        }
+
+        return ret;
+    }
+
+
     // Primary Constructor
     public Product(String name, int qty, double price) {
         this.uid = get_next_uid();
         this.name = name;
         this.qty = qty;
         this.price = price;
+        this.waitlist = new LinkedHashMap<Client, Integer>(); // Useing LinkedHashMap to maintain fifo
     }
 
 
@@ -99,6 +140,7 @@ public class Product {
         this.name = product.get_name();
         this.qty = product.get_qty();
         this.price = product.get_price();
+        this.waitlist = product.get_waitlist();
     }
 
 

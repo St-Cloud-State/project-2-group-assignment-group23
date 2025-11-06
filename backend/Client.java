@@ -63,45 +63,6 @@ public class Client {
         return new Wishlist(this.wishlist);
     }
 
-    private Map<Product, Integer> waitlist = new HashMap<Product, Integer>();
-    public void add_to_waitlist(Product product, int qty) {
-        waitlist.put(product, qty);
-    }
-    public void display_waitlist() {
-        Context C = Context.get_instance();
-
-        for (Product p : this.waitlist.keySet()) {
-            p.set_qty(this.waitlist.get(p));
-            C.print(p + "\n");
-        }
-    }
-    public static void check_client_waitlists(Product product) {
-        for (Client c : master_client_list) { // Go through the client list and see if anyone needs this
-            if (c.waitlist.containsKey(product)) {
-                int qty = c.waitlist.get(product);
-                Product reference = null;
-
-                for (Product p : c.waitlist.keySet()) {
-                    if (p.get_uid() == product.get_uid()) {
-                        reference = p;
-                    }
-                }
-
-                c.purchase_one(product, qty);
-
-                c.waitlist.remove(product);
-
-                if (reference.get_qty() >= qty) {
-                    reference.set_qty(reference.get_qty() - qty);
-                } else {
-                    c.add_to_waitlist(product, qty - reference.get_qty());
-                    reference.set_qty(reference.get_qty() - qty);
-                }
-            }
-        }
-    }
-
-
     // Prompts user to purchase everything in their wishlist.
     public Invoice process_order() {
         Wishlist purchase_list = new Wishlist(); // Create a new wishlist to hold our purchases
