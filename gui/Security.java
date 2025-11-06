@@ -67,7 +67,7 @@ public class Security {
 
             for (Client client : Client.master_client_list) {
                 if (client.get_uid() == client_id) {
-                    return "fake_password"; // needs to return C.get_password();
+                    return client.get_password(); // needs to return C.get_password();
                 }
             }
         } catch (NumberFormatException e) {

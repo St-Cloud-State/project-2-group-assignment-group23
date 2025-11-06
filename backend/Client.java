@@ -33,6 +33,15 @@ public class Client {
     public void accept_payment(double amount) {this.balance += amount;}
 
 
+    private String password;
+    public String get_password() {
+        return this.password;
+    }
+    public void set_password(String pw) {
+        this.password = pw;
+    }
+
+
     // History of all purchases created via this.process_order()
     private List<Invoice> transaction_history;
     // Returns a copy so that the actual history can't be edited
@@ -96,11 +105,12 @@ public class Client {
 
 
     // Primary constructor
-    public Client(String name, String address) {
+    public Client(String name, String address, String password) {
         this.uid = get_next_uid();
         this.name = name;
         this.address = address;
         this.balance = 0;
+        this.password = password;
         this.wishlist = new Wishlist();
         this.transaction_history = new ArrayList<Invoice>();
     }

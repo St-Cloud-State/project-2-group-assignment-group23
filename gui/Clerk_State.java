@@ -27,7 +27,9 @@ public class Clerk_State extends State{
                 String name = C.input();
                 C.print("Input Client Address: ");
                 String address = C.input();
-                Client.master_client_list.add(new Client(name, address));
+                C.print("Input Client Password: ");
+                String password = C.input();
+                Client.master_client_list.add(new Client(name, address, password));
                 next_state = 2; // Stay here
                 break;
             }
