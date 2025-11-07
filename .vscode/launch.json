@@ -10,7 +10,10 @@
                 "${workspaceFolder}/build"
             ],
             "args": "-t",
-            "preLaunchTask": "Compile Java"
+            "preLaunchTask": "Compile Java",
+            "env": {
+                "DISPLAY": "localhost:10.0"
+            }
         }
     ]
 }

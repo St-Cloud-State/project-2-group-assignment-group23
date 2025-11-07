@@ -1,6 +1,6 @@
 public abstract class State {
     // This will be used to swap from console to gui for the second part of the project.
-    private boolean headless;
+    protected boolean headless;
 
 
     // Used to set what are/aren't valid states to transition to.
