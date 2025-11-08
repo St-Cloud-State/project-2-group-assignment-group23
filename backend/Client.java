@@ -1,13 +1,11 @@
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Client {
     public static List<Client> master_client_list = new ArrayList<Client>();
 
     // Ensures each uid is unique, would need to be stashed when a power cycle occurs
-    private static int next_uid;
+    private static int next_uid = 1;
     private static int get_next_uid() {return next_uid++;}
 
     // Unique Identifier for each client.
