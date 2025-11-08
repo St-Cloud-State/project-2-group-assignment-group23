@@ -18,7 +18,7 @@ public class Security {
         Context C = Context.get_instance();
         C.clear_console();
 
-        int client_id = -1;
+        int[] client_id = {-1};
 
         String pw = null;
         switch (ent) {
@@ -31,7 +31,7 @@ public class Security {
                 break;
             }
             case CLIENT: {
-                pw = get_client_password(client_id);
+                pw = get_client_password(client_id); // Java wont pass by reference on primitives. The world should have let this language die and just used C++. At least its better than Rust.
                 break;
             }
             default: {
@@ -48,7 +48,7 @@ public class Security {
                 ret = true;
 
                 if (ent == Entity.CLIENT) {
-                    Client_State.set_current_client_id(client_id);
+                    Client_State.set_current_client_id(client_id[0]);
                 }
 
             }
@@ -58,15 +58,15 @@ public class Security {
     }
 
     // Used to fetch client specific passwords
-    private String get_client_password(int client_id) {
+    private String get_client_password(int[] client_id) {
         Context C = Context.get_instance();
         C.print("Input Client ID:");
 
         try {
-            client_id = Integer.parseInt(C.input()); // Will this scope how I want it to?
+            client_id[0] = Integer.parseInt(C.input()); // Will this scope how I want it to?
 
             for (Client client : Client.master_client_list) {
-                if (client.get_uid() == client_id) {
+                if (client.get_uid() == client_id[0]) {
                     return client.get_password(); // needs to return C.get_password();
                 }
             }
