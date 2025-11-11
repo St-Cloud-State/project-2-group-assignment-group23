@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
-import javax.xml.stream.FactoryConfigurationError;
-
 import java.awt.*;
 
 public class Manager_State extends State{
