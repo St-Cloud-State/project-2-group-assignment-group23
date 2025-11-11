@@ -46,7 +46,7 @@ public class Client_State extends State{
             JButton B6 = new JButton("Place Order");
             JButton B7 = new JButton("Logout");
 
-            Dimension btnSize = new Dimension(200, 32);
+            Dimension btnSize = new Dimension(400, 32);
             for (JButton b : new JButton[]{B1, B2, B3, B4, B5, B6, B7}) {
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setPreferredSize(btnSize);

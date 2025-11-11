@@ -31,7 +31,7 @@ public class Manager_State extends State{
             JButton B4 = new JButton("Become Clerk");
             JButton B5 = new JButton("Logout");
 
-            Dimension btnSize = new Dimension(200, 32);
+            Dimension btnSize = new Dimension(400, 32);
             for (JButton b : new JButton[]{B1, B2, B3, B4, B5}) {
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setPreferredSize(btnSize);
@@ -99,7 +99,8 @@ public class Manager_State extends State{
         if (ret == JOptionPane.OK_OPTION
          && name.getText().isEmpty() != true
          && quantity.getValue() != null
-         && price.getValue() != null) {
+         && price.getValue() != null
+        ) {
             Product.master_product_list.add(new Product(
                 name.getText(),
                 (Integer)quantity.getValue(), 
