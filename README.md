@@ -3,7 +3,7 @@
 ## If you need to manually change things:
 This Command compiles everything: `javac -g -d build ./backend/*.java ./gui/*.java`
 
-This Command Runs the driver and all the unit tests: `java -cp build gui`
+This Command Runs the driver and all the unit tests: `java -cp build Gui`
 
 Java Version Info:
     openjdk 17.0.16 2025-07-15

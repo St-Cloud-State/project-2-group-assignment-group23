@@ -29,7 +29,7 @@ public class Product {
     }
 
     // Ensures each uid is unique, would need to be stashed when a power cycle occurs
-    private static int next_uid;
+    private static int next_uid = 1;
     private static int get_next_uid() {return next_uid++;}
 
 
