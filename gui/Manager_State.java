@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
+import javax.xml.stream.FactoryConfigurationError;
+
 import java.awt.*;
 
 public class Manager_State extends State{
@@ -44,7 +46,7 @@ public class Manager_State extends State{
 
             B1.addActionListener(e -> {this.B1_action(frame);});
             B2.addActionListener(e -> {this.B2_action();});
-            B3.addActionListener(e -> {this.B3_action();});
+            B3.addActionListener(e -> {this.B3_action(frame);});
             B4.addActionListener(e -> {
                 frame.dispose();
                 this.B4_action();
@@ -134,23 +136,28 @@ public class Manager_State extends State{
         }
     }
 
-    void B3_action() {
-        Context C = Context.get_instance();
+    void B3_action(JFrame frame) {
+        JFileChooser file = new JFileChooser();
+        int ret = file.showOpenDialog(frame);
+
         try {
-            File path = new File(System.getProperty("user.dir"), C.input("Input Path to product csv file:"));
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
-            String in = br.readLine();
-            br.close();
-            String[] arr = in.split(",");
-            for (int i = 0; i < arr.length/3; i++) {
-                String name = arr[i++];
-                int qty = Integer.parseInt(arr[i++]);
-                double price = Double.parseDouble(arr[i]);  // Dont iterate here, loop will do it.
-                Product.add_to_mpl(name, qty, price);
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                File path = file.getSelectedFile();
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
+                String in = br.readLine();
+                br.close();
+                String[] arr = in.split(",");
+                for (int i = 0; i < arr.length/3; i++) {
+                    String name = arr[i++];
+                    int qty = Integer.parseInt(arr[i++]);
+                    double price = Double.parseDouble(arr[i]);  // Dont iterate here, loop will do it.
+                    Product.add_to_mpl(name, qty, price);
+                }
             }
-        } catch (Exception e) {
-            C.print("Something went wrong. A better program would tell you what that was.");
         }
+        // A better program would handle these.
+        catch(FileNotFoundException e) {}
+        catch(IOException e) {}
     }
 
     void B4_action() {
