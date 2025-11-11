@@ -3,14 +3,13 @@ import java.awt.*;
 
 public class Clerk_State extends State{
     // Primary Constructor
-    public Clerk_State(boolean headless) {
+    public Clerk_State() {
         super(new int[]{0, 2, 3});
-        this.headless = headless;
     }
 
     // Enters the state with a gui
     @Override
-    protected void enter_gui() {
+    protected void enter_state() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Clerk Window");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

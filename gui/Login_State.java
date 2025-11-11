@@ -4,14 +4,13 @@ import java.awt.*;
 
 public class Login_State extends State {
     // Primary Constructor
-    public Login_State(boolean headless) {
+    public Login_State() {
         super(new int[]{0, 1, 2, 3});
-        this.headless = headless;
     }
 
     // Enters the state with a gui
     @Override
-    protected void enter_gui() {
+    protected void enter_state() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Login Window");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -21,14 +21,13 @@ public class Client_State extends State{
     }
 
     // Primary Constructor
-    public Client_State(boolean headless) {
+    public Client_State() {
         super(new int[]{0, 3});
-        this.headless = headless;
     }
 
     // Enters the state with a gui
     @Override
-    protected void enter_gui() {
+    protected void enter_state() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Client Window");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

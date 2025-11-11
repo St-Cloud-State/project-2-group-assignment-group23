@@ -7,14 +7,12 @@ import java.awt.*;
 
 public class Manager_State extends State{
     // Primary Constructor
-    public Manager_State(boolean headless) {
+    public Manager_State() {
         super(new int[]{0, 1, 2, 3});
-        this.headless = headless;
     }
 
-    // Enters the state with a gui
     @Override
-    protected void enter_gui() {
+    protected void enter_state() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Manager Window");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
