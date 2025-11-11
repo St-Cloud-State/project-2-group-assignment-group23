@@ -97,8 +97,15 @@ public class Context {
     // Prints to Console
     public void print(String str) {System.out.print(str + "\n");}
     private static Scanner scanner = new Scanner(System.in);
-    // Waits for input from console
-    public String input() {return scanner.nextLine();}
     // Clears the console
     public void clear_console() {System.out.print("\033[H\033[2J"); System.out.flush();}
+    // Waits for input from console
+    public String input(String reason_why, boolean headless) {
+        if (headless == true) {
+            this.print(reason_why);
+            return scanner.nextLine();
+        } else {
+            return "THIS AINT DONE YET";
+        }
+    }
 }

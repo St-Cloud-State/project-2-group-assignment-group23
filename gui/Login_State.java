@@ -2,7 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Login_State extends State{
+public class Login_State extends State {
     // Primary Constructor
     public Login_State(boolean headless) {
         super(new int[]{0, 1, 2, 3});
@@ -17,13 +17,13 @@ public class Login_State extends State{
         int next_state = 0;
 
         C.clear_console();
-        C.print("Select User:");
-        C.print("  1. Manager");
-        C.print("  2. Sales Clerk");
-        C.print("  3. Client");
-        C.print("  4. Exit");
+        String req = "Select User:\n"
+                   + "  1. Manager\n"
+                   + "  2. Sales Clerk\n"
+                   + "  3. Client\n"
+                   + "  4. Exit";
 
-        switch (C.input()) {
+        switch (C.input(req, true)) {
             case "1": {
                 next_state = Context.security_handle.verify_password(Security.Entity.MANAGER) ? 1 : 0;
                 break;

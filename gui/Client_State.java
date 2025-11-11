@@ -30,14 +30,14 @@ public class Client_State extends State{
         int next_state = 0;
 
         C.clear_console();
-        C.print("Select Operation:");
-        C.print("  1. Show Client Details");
-        C.print("  2. Show Product List");
-        C.print("  3. Show Client Transactions");
-        C.print("  4. Add Item to Client Wishlist");
-        C.print("  5. Display Client Wishlist");
-        C.print("  6. Place Order");
-        C.print("  7. Logout");
+        String req = "Select Operation:\n"
+                   + "  1. Show Client Details\n"
+                   + "  2. Show Product List\n"
+                   + "  3. Show Client Transactions\n"
+                   + "  4. Add Item to Client Wishlist\n"
+                   + "  5. Display Client Wishlist\n"
+                   + "  6. Place Order\n"
+                   + "  7. Logout";
 
         // First we want to parse this client's info from the master client list.
         Client me = null;
@@ -49,11 +49,10 @@ public class Client_State extends State{
 
         // Shouldn't be possible to be here without a valid client id, but theres probably some wierd edge case I don't know about.
         if (me != null) {
-            switch (C.input()) {
+            switch (C.input(req, true)) {
                 case "1": {
                     C.print(me.toString());
-                    C.print("Press Enter to Continue");
-                    C.input();
+                    C.input("Press Enter to Continue", true);
                     next_state = 3; // Stay here
                     break;
                 }
@@ -61,8 +60,7 @@ public class Client_State extends State{
                     for (Product p : Product.master_product_list) {
                         C.print(p.toString());
                     }
-                    C.print("Press Enter to Continue");
-                    C.input();
+                    C.input("Press Enter to Continue", true);
                     next_state = 3; // Stay here
                     break;
                 }
@@ -70,15 +68,13 @@ public class Client_State extends State{
                     for (Invoice i : me.get_transaction_history()) {
                         C.print(i.toString());
                     }
-                    C.print("Press Enter to Continue");
-                    C.input();
+                    C.input("Press Enter to Continue", true);
                     next_state = 3; // Stay here
                     break;
                 }
                 case "4": {
                     try {
-                        C.print("Input Product ID: ");
-                        int product_id = Integer.parseInt(C.input());
+                        int product_id = Integer.parseInt(C.input("Input Product ID: ", true));
                         Product product = null;
                         for (Product p : Product.master_product_list) {
                             if (p.get_uid() == product_id) {
@@ -92,8 +88,7 @@ public class Client_State extends State{
                             C.print("Product Not Found");
                             C.wait_a_sec();
                         } else {
-                            C.print("Input Quantity: ");
-                            int quantity = Integer.parseInt(C.input());
+                            int quantity = Integer.parseInt(C.input("Input Quantity: ", true));
                             me.add_to_wishlist(product, quantity);
                         }
                     } catch (NumberFormatException e) {
@@ -107,8 +102,7 @@ public class Client_State extends State{
                     for (Product p : me.get_wishlist().get_product_list()) {
                         C.print(p.toString());
                     }
-                    C.print("Press Enter to Continue");
-                    C.input();
+                    C.input("Press Enter to Continue", true);
                     next_state = 3; // Stay here
                     break;
                 }

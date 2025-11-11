@@ -41,8 +41,7 @@ public class Security {
         }
 
         if (pw != null) {
-            C.print("Input Password:");
-            String input = C.input();
+            String input = C.input("Input Password:", true);
 
             if (input.equals(pw)) {
                 ret = true;
@@ -60,10 +59,9 @@ public class Security {
     // Used to fetch client specific passwords
     private String get_client_password(int[] client_id) {
         Context C = Context.get_instance();
-        C.print("Input Client ID:");
 
         try {
-            client_id[0] = Integer.parseInt(C.input()); // Will this scope how I want it to?
+            client_id[0] = Integer.parseInt(C.input("Input Client ID:", true)); // Will this scope how I want it to?
 
             for (Client client : Client.master_client_list) {
                 if (client.get_uid() == client_id[0]) {

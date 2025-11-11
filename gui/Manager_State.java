@@ -16,22 +16,19 @@ public class Manager_State extends State{
         int next_state = 0;
 
         C.clear_console();
-        C.print("Select Operation:");
-        C.print("  1. Add Product");
-        C.print("  2. Display Product Waitlist");
-        C.print("  3. Recieve Shipment");
-        C.print("  4. Become Clerk");
-        C.print("  5. Logout");
+        String req = "Select Operation:\n"
+                   + "  1. Add Product\n"
+                   + "  2. Display Product Waitlist\n"
+                   + "  3. Recieve Shipment\n"
+                   + "  4. Become Clerk\n"
+                   + "  5. Logout";
 
-        switch (C.input()) {
+        switch (C.input(req, true)) {
             case "1": {
                 try {
-                    C.print("Input Product Name:");
-                    String name = C.input();
-                    C.print("Input Product Quantity:");
-                    int quantity = Integer.parseInt(C.input());
-                    System.out.print("Input Product Price: ");
-                    Double price = Double.parseDouble(C.input());
+                    String name = C.input("Input Product Name:", true);
+                    int quantity = Integer.parseInt(C.input("Input Product Quantity:", true));
+                    Double price = Double.parseDouble(C.input("Input Product Price: ", true));
                     Product.master_product_list.add(new Product(name, quantity, price));
                 } catch (NumberFormatException e) {
                     C.print("Invalid Value: " + e);
@@ -42,8 +39,7 @@ public class Manager_State extends State{
             }
             case "2": {
                 try {
-                    C.print("Input Product UID:");
-                    int uid = Integer.parseInt(C.input());
+                    int uid = Integer.parseInt(C.input("Input Product UID:", true));
 
                     boolean found_it = false;
                     for (Product p : Product.master_product_list) {
@@ -55,8 +51,7 @@ public class Manager_State extends State{
                                 C.print("Client: " + entry.getKey() + " Waiting on qty: " + entry.getValue());
                             }
 
-                            C.print("Press Enter to Continue:");
-                            C.input();
+                            C.input("Press Enter to Continue:", true);
 
                             break;
                         }
@@ -76,8 +71,7 @@ public class Manager_State extends State{
             }
             case "3": {
                 try {
-                    C.print("Input Path to product csv file:");
-                    File path = new File(System.getProperty("user.dir"), C.input());
+                    File path = new File(System.getProperty("user.dir"), C.input("Input Path to product csv file:", true));
                     BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
                     String in = br.readLine();
                     br.close();

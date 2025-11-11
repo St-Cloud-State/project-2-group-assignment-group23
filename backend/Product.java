@@ -61,12 +61,10 @@ public class Product {
         Context C = Context.get_instance();
 
         C.print(this.toString());
-        C.print("      Do you want to purchase this? Y/N   ");
 
-        String input = C.input().trim().toUpperCase();
+        String input = C.input("      Do you want to purchase this? Y/N   ", true).trim().toUpperCase();
         while (!input.equals("Y") && !input.equals("N")) {
-            C.print("Please enter Y or N: ");
-            input = C.input().trim().toUpperCase();
+            input = C.input("Please enter Y or N: ", true).trim().toUpperCase();
         }
 
         if (input.equals("Y")) {
