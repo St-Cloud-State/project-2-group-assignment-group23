@@ -3,7 +3,6 @@ public class Security {
     private String manager_password;
     private String clerk_password;
 
-
     // Primary Constructor
     public Security(String manager_password, String clerk_password) {
         this.manager_password = manager_password;
@@ -17,7 +16,7 @@ public class Security {
 
         Context C = Context.get_instance();
 
-        int[] client_id = {-1};
+        int client_id = -1;
 
         String pw = null;
         switch (ent) {
@@ -30,7 +29,13 @@ public class Security {
                 break;
             }
             case CLIENT: {
-                pw = get_client_password(client_id); // Java wont pass by reference on primitives. The world should have let this language die and just used C++. At least its better than Rust.
+                client_id = Integer.parseInt(C.input("Input Client ID:")); // Will this scope how I want it to?
+                for (Client client : Client.master_client_list) {
+                    if (client.get_uid() == client_id) {
+                        pw = client.get_password();
+                        Client_State.set_current_client_id(client);
+                    }
+                }
                 break;
             }
             default: {
@@ -41,40 +46,11 @@ public class Security {
 
         if (pw != null) {
             String input = C.input("Input Password:");
-
             if (input.equals(pw)) {
                 ret = true;
-
-                if (ent == Entity.CLIENT) {
-                    Client_State.set_current_client_id(client_id[0]);
-                }
-
             }
         }
 
         return ret;
-    }
-
-    // Used to fetch client specific passwords
-    private String get_client_password(int[] client_id) {
-        Context C = Context.get_instance();
-
-        try {
-            client_id[0] = Integer.parseInt(C.input("Input Client ID:")); // Will this scope how I want it to?
-
-            for (Client client : Client.master_client_list) {
-                if (client.get_uid() == client_id[0]) {
-                    return client.get_password(); // needs to return C.get_password();
-                }
-            }
-        } catch (NumberFormatException e) {
-            C.print("That wasn't a number. How did you mess that up? This shouldn't be that difficult.");
-        }
-
-        C.print("Couldn't find that one!");
-
-        C.wait_a_sec();
-
-        return null;
     }
 }

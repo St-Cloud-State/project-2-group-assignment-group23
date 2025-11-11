@@ -2,23 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Client_State extends State{
-    private static int current_client_id;
-    // Fetches the client id currently in use.
-    public static int get_current_client_id() {return Client_State.current_client_id;}
-    // Sets the client id currently in use.
-    public static boolean set_current_client_id(int id) {
-        boolean ret = false;
-
-        for (Client client : Client.master_client_list) {
-            if (client.get_uid() ==  id) {
-                Client_State.current_client_id = id;
-                ret = true;
-                break;
-            }
-        }
-
-        return ret;
-    }
+    private static Client current_client;
+    public static Client get_current_client_id() {return Client_State.current_client;}
+    public static void set_current_client_id(Client client) {Client_State.current_client = client;}
 
     // Primary Constructor
     public Client_State() {

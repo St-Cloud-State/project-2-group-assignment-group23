@@ -47,7 +47,7 @@ public class Clerk_State extends State{
             B3.addActionListener(e -> {this.B3_action(frame);});
             B4.addActionListener(e -> {this.B4_action(frame);});
             B5.addActionListener(e -> {this.B5_action(frame);});
-            B6.addActionListener(e -> {this.B6_action();});
+            B6.addActionListener(e -> {this.B6_action(frame);});
             B7.addActionListener(e -> {
                 frame.dispose();
                 this.B7_action();
@@ -210,21 +210,24 @@ public class Clerk_State extends State{
         }
     }
 
-    void B6_action() {
+    void B6_action(JFrame frame) {
         Context C = Context.get_instance();
         int next_state = Context.security_handle.verify_password(Security.Entity.CLERK) ? 3 : 0;
         if (next_state == 3) {
-            try {
-                int client_id = Integer.parseInt(C.input("Input Client ID:"));
-
-                if (!Client_State.set_current_client_id(client_id)) {
-                    next_state = 2; // Stay here
-                    C.print("Couldn't Find that one!");
-                } else {
-                    C.request_state(next_state);
+            int client_id = Integer.parseInt(C.input("Input Client ID:"));
+            boolean found = false;
+            for (Client client : Client.master_client_list) {
+                if (client.get_uid() == client_id) {
+                    Client_State.set_current_client_id(client);
+                    found = true;
                 }
-            } catch (NumberFormatException e) {
-                C.print("Invalid Input: " + e);
+            }
+
+            if (found) {
+                frame.dispose();
+                C.request_state(next_state);
+            } else {
+                JOptionPane.showMessageDialog(frame, "Invalid Client ID");
             }
         }
     }
