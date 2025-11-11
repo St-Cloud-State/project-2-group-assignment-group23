@@ -21,14 +21,14 @@ public class Clerk_State extends State{
             center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
             JButton B1 = new JButton("Add Client");
-            JButton B2 = new JButton("Show Produc);t List");
+            JButton B2 = new JButton("Show Product List");
             JButton B3 = new JButton("Show Client List");
             JButton B4 = new JButton("Show Clients With); Outstanding Balance");
             JButton B5 = new JButton("Record Client Payment");
             JButton B6 = new JButton("Become Client");
             JButton B7 = new JButton("Logout");
 
-            Dimension btnSize = new Dimension(140, 32);
+            Dimension btnSize = new Dimension(200, 32);
             for (JButton b : new JButton[]{B1, B2, B3, B4, B5, B6, B7}) {
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setPreferredSize(btnSize);
@@ -40,12 +40,15 @@ public class Clerk_State extends State{
             }
 
             B1.addActionListener(e -> {this.B1_action();});
-            B2.addActionListener(e -> {this.B2_action();});
-            B3.addActionListener(e -> {this.B3_action();});
-            B4.addActionListener(e -> {this.B4_action();});
+            B2.addActionListener(e -> {this.B2_action(frame);});
+            B3.addActionListener(e -> {this.B3_action(frame);});
+            B4.addActionListener(e -> {this.B4_action(frame);});
             B5.addActionListener(e -> {this.B5_action();});
             B6.addActionListener(e -> {this.B6_action();});
-            B7.addActionListener(e -> {this.B7_action();});
+            B7.addActionListener(e -> {
+                frame.dispose();
+                this.B7_action();
+            });
 
             center.remove(center.getComponentCount() - 1);
             frame.add(center, BorderLayout.CENTER);
@@ -65,30 +68,68 @@ public class Clerk_State extends State{
         ));
     }
 
-    void B2_action() {
+    void B2_action(JFrame frame) {
         String products = "";
         for (Product p : Product.master_product_list) {
-            products += p.toString();
+            products += p.toString() + "\n";
         }
-        JOptionPane.showMessageDialog(null, products);
+
+        JDialog popup = new JDialog(frame, "Products List", false);
+        popup.setSize(400, ((Product.master_product_list.size() * 20) + 80));
+        popup.setLayout(new BorderLayout());
+        JTextArea list = new JTextArea(products);
+        JScrollPane scroll = new JScrollPane(list);
+        popup.add(scroll, BorderLayout.CENTER);
+        list.setEditable(false);
+        JButton close_button = new JButton("Close");
+        close_button.addActionListener(ev -> popup.dispose());
+        popup.add(close_button, BorderLayout.SOUTH);
+        popup.setLocationRelativeTo(frame);
+        popup.setVisible(true);
     }
 
-    void B3_action() {
+    void B3_action(JFrame frame) {
         String clients = "";
         for (Client client : Client.master_client_list) {
             clients += client.toString();
         }
-        JOptionPane.showMessageDialog(null, clients);
+
+        JDialog popup = new JDialog(frame, "Client List", false);
+        popup.setSize(400, ((Client.master_client_list.size() * 20) + 80));
+        popup.setLayout(new BorderLayout());
+        JTextArea list = new JTextArea(clients);
+        JScrollPane scroll = new JScrollPane(list);
+        popup.add(scroll, BorderLayout.CENTER);
+        list.setEditable(false);
+        JButton close_button = new JButton("Close");
+        close_button.addActionListener(ev -> popup.dispose());
+        popup.add(close_button, BorderLayout.SOUTH);
+        popup.setLocationRelativeTo(frame);
+        popup.setVisible(true);
     }
 
-    void B4_action() {
+    void B4_action(JFrame frame) {
         String clients = "";
+        int count = 0;
         for (Client client : Client.master_client_list) {
             if (client.get_balance() < 0) {
                 clients += client.toString();
+                count++;
             }
         }
-        JOptionPane.showMessageDialog(null, clients);
+
+        JDialog popup = new JDialog(frame, "Client List", false);
+        popup.setSize(400, ((count * 20) + 80));
+        popup.setLayout(new BorderLayout());
+        JTextArea list = new JTextArea(clients);
+        JScrollPane scroll = new JScrollPane(list);
+        popup.add(scroll, BorderLayout.CENTER);
+        list.setEditable(false);
+        JButton close_button = new JButton("Close");
+        close_button.addActionListener(ev -> popup.dispose());
+        popup.add(close_button, BorderLayout.SOUTH);
+        popup.setLocationRelativeTo(frame);
+        popup.setVisible(true);
     }
 
     void B5_action() {

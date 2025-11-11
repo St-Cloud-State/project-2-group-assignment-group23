@@ -100,6 +100,7 @@ public class Context {
         JOptionPane.showMessageDialog(null, str);
     }
 
+
     public String input(String reason_why) {
         return JOptionPane.showInputDialog(null, reason_why);
     }

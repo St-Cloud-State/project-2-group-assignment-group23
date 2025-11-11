@@ -26,7 +26,7 @@ public class Login_State extends State {
             JButton client = new JButton("Client");
             JButton exit = new JButton("Exit");
 
-            Dimension btnSize = new Dimension(140, 32);
+            Dimension btnSize = new Dimension(200, 32);
             for (JButton b : new JButton[]{manager, sales_clerk, client, exit}) {
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setPreferredSize(btnSize);
@@ -44,12 +44,12 @@ public class Login_State extends State {
                 C.request_state(next_state);
             });
             sales_clerk.addActionListener(e -> {
-                int next_state = Context.security_handle.verify_password(Security.Entity.MANAGER) ? 2 : 0;
+                int next_state = Context.security_handle.verify_password(Security.Entity.CLERK) ? 2 : 0;
                 frame.dispose();
                 C.request_state(next_state);
             });
             client.addActionListener(e -> {
-                int next_state = Context.security_handle.verify_password(Security.Entity.MANAGER) ? 3 : 0;
+                int next_state = Context.security_handle.verify_password(Security.Entity.CLIENT) ? 3 : 0;
                 frame.dispose();
                 C.request_state(next_state);
             });

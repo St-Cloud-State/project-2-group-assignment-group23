@@ -29,7 +29,7 @@ public class Manager_State extends State{
             JButton B4 = new JButton("Become Clerk");
             JButton B5 = new JButton("Logout");
 
-            Dimension btnSize = new Dimension(140, 32);
+            Dimension btnSize = new Dimension(200, 32);
             for (JButton b : new JButton[]{B1, B2, B3, B4, B5}) {
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setPreferredSize(btnSize);
@@ -40,19 +40,15 @@ public class Manager_State extends State{
                 center.add(Box.createVerticalStrut(8));
             }
 
-            B1.addActionListener(e -> {
-                this.B1_action();
-            });
-            B2.addActionListener(e -> {
-                this.B2_action();
-            });
-            B3.addActionListener(e -> {
-                this.B3_action();
-            });
+            B1.addActionListener(e -> {this.B1_action();});
+            B2.addActionListener(e -> {this.B2_action();});
+            B3.addActionListener(e -> {this.B3_action();});
             B4.addActionListener(e -> {
+                frame.dispose();
                 this.B4_action();
             });
             B5.addActionListener(e -> {
+                frame.dispose();
                 this.B5_action();
             });
 
@@ -125,7 +121,7 @@ public class Manager_State extends State{
     }
 
     void B4_action() {
-        int next_state = Context.security_handle.verify_password(Security.Entity.MANAGER) ? 2 : 0;
+        int next_state = Context.security_handle.verify_password(Security.Entity.MANAGER) ? 2 : 1;
         Context.get_instance().request_state(next_state);
     }
 

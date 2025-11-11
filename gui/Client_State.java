@@ -46,7 +46,7 @@ public class Client_State extends State{
             JButton B6 = new JButton("Place Order");
             JButton B7 = new JButton("Logout");
 
-            Dimension btnSize = new Dimension(140, 32);
+            Dimension btnSize = new Dimension(200, 32);
             for (JButton b : new JButton[]{B1, B2, B3, B4, B5, B6, B7}) {
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setPreferredSize(btnSize);
@@ -58,12 +58,15 @@ public class Client_State extends State{
             }
 
             B1.addActionListener(e -> {this.B1_action();});
-            B2.addActionListener(e -> {this.B2_action();});
+            B2.addActionListener(e -> {this.B2_action(frame);});
             B3.addActionListener(e -> {this.B3_action();});
             B4.addActionListener(e -> {this.B4_action();});
             B5.addActionListener(e -> {this.B5_action();});
             B6.addActionListener(e -> {this.B6_action();});
-            B7.addActionListener(e -> {this.B7_action();});
+            B7.addActionListener(e -> {
+                frame.dispose();
+                this.B7_action();
+            });
 
             center.remove(center.getComponentCount() - 1);
             frame.add(center, BorderLayout.CENTER);
@@ -79,12 +82,24 @@ public class Client_State extends State{
         // C.print(me.toString());
     }
 
-    void B2_action() {
+    void B2_action(JFrame frame) {
         String products = "";
         for (Product p : Product.master_product_list) {
-            products += p.toString();
+            products += p.toString() + "\n";
         }
-        JOptionPane.showMessageDialog(null, products);
+
+        JDialog popup = new JDialog(frame, "Products List", false);
+        popup.setSize(400, ((Product.master_product_list.size() * 20) + 80));
+        popup.setLayout(new BorderLayout());
+        JTextArea list = new JTextArea(products);
+        JScrollPane scroll = new JScrollPane(list);
+        popup.add(scroll, BorderLayout.CENTER);
+        list.setEditable(false);
+        JButton close_button = new JButton("Close");
+        close_button.addActionListener(ev -> popup.dispose());
+        popup.add(close_button, BorderLayout.SOUTH);
+        popup.setLocationRelativeTo(frame);
+        popup.setVisible(true);
     }
 
     void B3_action() {
