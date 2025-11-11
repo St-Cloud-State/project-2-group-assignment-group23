@@ -39,7 +39,7 @@ public class Clerk_State extends State{
                 center.add(Box.createVerticalStrut(8));
             }
 
-            B1.addActionListener(e -> {this.B1_action();});
+            B1.addActionListener(e -> {this.B1_action(frame);});
             B2.addActionListener(e -> {this.B2_action(frame);});
             B3.addActionListener(e -> {this.B3_action(frame);});
             B4.addActionListener(e -> {this.B4_action(frame);});
@@ -59,13 +59,35 @@ public class Clerk_State extends State{
         });
     }
 
-    void B1_action() {
-        Context C = Context.get_instance();
-        Client.master_client_list.add(new Client(
-            C.input("Input Client Name:"),
-            C.input("Input Client Address:"), 
-            C.input("Input Client Password:")
-        ));
+    void B1_action(JFrame frame) {
+        JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
+
+        JTextField name = new JTextField(10);
+        panel.add(new JLabel("Client Name: "));
+        panel.add(name);
+
+        JTextField address = new JTextField(10);
+        panel.add(new JLabel("Client Address: "));
+        panel.add(address);
+
+        JTextField password = new JTextField(10);
+        panel.add(new JLabel("Client Password: "));
+        panel.add(password);
+
+        int ret = JOptionPane.showConfirmDialog(frame, 
+                                                panel, 
+                                                "Enter Client Information", 
+                                                JOptionPane.OK_CANCEL_OPTION, 
+                                                JOptionPane.PLAIN_MESSAGE
+                                                );
+
+        if (ret == JOptionPane.OK_OPTION) {
+            Client.master_client_list.add(new Client(
+                name.getText(),
+                address.getText(), 
+                password.getText()
+            ));
+        }
     }
 
     void B2_action(JFrame frame) {

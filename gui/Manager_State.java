@@ -1,8 +1,10 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.NumberFormat;
 import java.util.Map;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 
 public class Manager_State extends State{
@@ -40,7 +42,7 @@ public class Manager_State extends State{
                 center.add(Box.createVerticalStrut(8));
             }
 
-            B1.addActionListener(e -> {this.B1_action();});
+            B1.addActionListener(e -> {this.B1_action(frame);});
             B2.addActionListener(e -> {this.B2_action();});
             B3.addActionListener(e -> {this.B3_action();});
             B4.addActionListener(e -> {
@@ -61,17 +63,48 @@ public class Manager_State extends State{
         });
     }
 
-    void B1_action() {
-        Context C = Context.get_instance();
-        try {
+    void B1_action(JFrame frame) {
+        JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
+
+        JTextField name = new JTextField(10);
+        panel.add(new JLabel("Name:"));
+        panel.add(name);
+
+        NumberFormat int_form = NumberFormat.getIntegerInstance();
+        NumberFormatter int_former = new NumberFormatter(int_form);
+        int_former.setValueClass(Integer.class);
+        int_former.setAllowsInvalid(false);
+        JFormattedTextField quantity = new JFormattedTextField(int_former);
+        quantity.setColumns(10);
+        panel.add(new JLabel("Quantity:"));
+        panel.add(quantity);
+
+        NumberFormat double_form = NumberFormat.getNumberInstance();
+        double_form.setGroupingUsed(false);
+        double_form.setMaximumFractionDigits(2);
+        NumberFormatter double_former = new NumberFormatter(double_form);
+        double_former.setValueClass(Double.class);
+        JFormattedTextField price = new JFormattedTextField(double_former);
+        price.setColumns(10);
+        panel.add(new JLabel("Price:"));
+        panel.add(price);
+
+        int ret = JOptionPane.showConfirmDialog(frame, 
+                                                panel, 
+                                                "Enter Product Information", 
+                                                JOptionPane.OK_CANCEL_OPTION, 
+                                                JOptionPane.PLAIN_MESSAGE
+                                                );
+
+        if (ret == JOptionPane.OK_OPTION
+         && name.getText().isEmpty() != true
+         && quantity.getValue() != null
+         && price.getValue() != null) {
             Product.master_product_list.add(new Product(
-                C.input("Input Product Name:"),
-                Integer.parseInt(C.input("Input Product Quantity:")),
-                Double.parseDouble(C.input("Input Product Price: "))
+                name.getText(),
+                (Integer)quantity.getValue(), 
+                (Double)price.getValue()
             ));
-        } catch (NumberFormatException e) {
-            C.print("Invalid Value: " + e);
-            C.wait_a_sec();
         }
     }
 
