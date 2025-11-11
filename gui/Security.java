@@ -16,7 +16,6 @@ public class Security {
         boolean ret = false;
 
         Context C = Context.get_instance();
-        C.clear_console();
 
         int[] client_id = {-1};
 
@@ -41,7 +40,7 @@ public class Security {
         }
 
         if (pw != null) {
-            String input = C.input("Input Password:", true);
+            String input = C.input("Input Password:");
 
             if (input.equals(pw)) {
                 ret = true;
@@ -61,7 +60,7 @@ public class Security {
         Context C = Context.get_instance();
 
         try {
-            client_id[0] = Integer.parseInt(C.input("Input Client ID:", true)); // Will this scope how I want it to?
+            client_id[0] = Integer.parseInt(C.input("Input Client ID:")); // Will this scope how I want it to?
 
             for (Client client : Client.master_client_list) {
                 if (client.get_uid() == client_id[0]) {

@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -95,17 +97,11 @@ public class Context {
 
 
     // Prints to Console
-    public void print(String str) {System.out.print(str + "\n");}
-    private static Scanner scanner = new Scanner(System.in);
-    // Clears the console
-    public void clear_console() {System.out.print("\033[H\033[2J"); System.out.flush();}
-    // Waits for input from console
-    public String input(String reason_why, boolean headless) {
-        if (headless == true) {
-            this.print(reason_why);
-            return scanner.nextLine();
-        } else {
-            return "THIS AINT DONE YET";
-        }
+    public void print(String str) {
+        JOptionPane.showMessageDialog(null, str);
+    }
+
+    public String input(String reason_why) {
+        return JOptionPane.showInputDialog(null, reason_why);
     }
 }

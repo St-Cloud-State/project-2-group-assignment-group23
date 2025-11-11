@@ -62,9 +62,9 @@ public class Product {
 
         C.print(this.toString());
 
-        String input = C.input("      Do you want to purchase this? Y/N   ", true).trim().toUpperCase();
+        String input = C.input("      Do you want to purchase this? Y/N   ").trim().toUpperCase();
         while (!input.equals("Y") && !input.equals("N")) {
-            input = C.input("Please enter Y or N: ", true).trim().toUpperCase();
+            input = C.input("Please enter Y or N: ").trim().toUpperCase();
         }
 
         if (input.equals("Y")) {
