@@ -56,33 +56,22 @@ public class Product {
     public void set_price(double price) {this.price = price;}
 
 
-    // Used to prompt user for purchases
-    public boolean prompt_user_to_purchase(Client client) {
-        Context C = Context.get_instance();
+    // Used to update the product when a client buys it
+    public boolean purchase(Client client) {
+        for (Product p : master_product_list) {
+            if (this.uid == p.get_uid()) {
+                int num_wanted = this.qty;
+                int num_on_hand = p.get_qty();
 
-        C.print(this.toString());
-
-        String input = C.input("      Do you want to purchase this? Y/N   ").trim().toUpperCase();
-        while (!input.equals("Y") && !input.equals("N")) {
-            input = C.input("Please enter Y or N: ").trim().toUpperCase();
-        }
-
-        if (input.equals("Y")) {
-            for (Product p : master_product_list) {
-                if (this.uid == p.get_uid()) {
-                    int num_wanted = this.qty;
-                    int num_on_hand = p.get_qty();
-
-                    if (num_on_hand >= num_wanted) {
-                        p.set_qty(num_on_hand - num_wanted);
-                    } else {
-                        p.set_qty(0);
-                        p.add_to_waitlist(client, num_wanted - num_on_hand);
-                        this.qty = num_on_hand;
-                    }
-
-                    return true;
+                if (num_on_hand >= num_wanted) {
+                    p.set_qty(num_on_hand - num_wanted);
+                } else {
+                    p.set_qty(0);
+                    p.add_to_waitlist(client, num_wanted - num_on_hand);
+                    this.qty = num_on_hand;
                 }
+
+                return true;
             }
         }
         return false;
@@ -142,15 +131,7 @@ public class Product {
     }
 
 
-    // // Operator overload for list comparison operations
-    // public boolean equals(Product other) {
-    //     if (this.uid == other.get_uid()) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-
+    // Operator overload for list comparison operations
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

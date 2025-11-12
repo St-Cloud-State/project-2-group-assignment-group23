@@ -75,6 +75,7 @@ public class Client {
         // Remove everything we want to purchase from our wishlist.
         for (Product product : purchase_list.get_product_list()) {
             this.wishlist.remove_product(product);
+            product.purchase(this);
         }
 
         Invoice invoice = new Invoice(purchase_list);
