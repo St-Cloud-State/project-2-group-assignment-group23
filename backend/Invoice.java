@@ -44,7 +44,7 @@ public class Invoice {
     public String toString() {
         String ret = "Invoice total_price: $" + this.total_price + "    Transaction Date: " + this.transaction_date;
         for (Product product : product_list.get_product_list()) {
-            ret += "\n" + product;
+            ret += "\n" +  "    " + product;
         }
         return ret;
     }

@@ -197,8 +197,10 @@ public class Client_State extends State{
 
         JButton confirm_button = new JButton("Confirm");
 
-        Wishlist purchase_list = new Wishlist(); // Create a new wishlist to hold our purchases
+        
         confirm_button.addActionListener(ev -> {
+            Wishlist purchase_list = new Wishlist(); // Create a new wishlist to hold our purchases
+
             for (int i = 0; i < check_boxes.size(); i++) {
                 if (check_boxes.get(i).isSelected()) {
                     Product p = current_client.get_wishlist().get_product_list().get(i);
@@ -206,6 +208,7 @@ public class Client_State extends State{
                 }
             }
             popup.dispose();
+            current_client.process_order(purchase_list);
         });
 
         button_panel.add(confirm_button);
@@ -214,8 +217,6 @@ public class Client_State extends State{
 
         popup.setLocationRelativeTo(frame);
         popup.setVisible(true);
-
-        current_client.process_order(purchase_list);
     }
 
     void B7_action() {

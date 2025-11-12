@@ -142,12 +142,26 @@ public class Product {
     }
 
 
-    // Operator overload for list comparison operations
-    public boolean equals(Product other) {
-        if (this.uid == other.get_uid()) {
+    // // Operator overload for list comparison operations
+    // public boolean equals(Product other) {
+    //     if (this.uid == other.get_uid()) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
+        } else if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        } else {
+            Product other = (Product)obj;
+            return this.uid == other.get_uid();
         }
-        return false;
+        
     }
 
     @Override
