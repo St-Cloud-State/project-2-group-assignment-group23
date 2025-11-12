@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 public class Security {
     // Default passwords
     private String manager_password;
@@ -16,7 +18,7 @@ public class Security {
 
         Context C = Context.get_instance();
 
-        int client_id = -1;
+        Integer client_id = -1;
 
         String pw = null;
         switch (ent) {
@@ -29,11 +31,17 @@ public class Security {
                 break;
             }
             case CLIENT: {
-                client_id = Integer.parseInt(C.input("Input Client ID:")); // Will this scope how I want it to?
-                for (Client client : Client.master_client_list) {
-                    if (client.get_uid() == client_id) {
-                        pw = client.get_password();
-                        Client_State.set_current_client_id(client);
+                client_id = C.input("Input Client ID:", Integer.class);
+                if (client_id != null) {
+                    for (Client client : Client.master_client_list) {
+                        if (client.get_uid() == client_id) {
+                            pw = client.get_password();
+                            Client_State.set_current_client_id(client);
+                        }
+                    }
+
+                    if (pw == null) {
+                        JOptionPane.showMessageDialog(null, "Couldn't find that Client ID.");
                     }
                 }
                 break;
@@ -45,7 +53,7 @@ public class Security {
         }
 
         if (pw != null) {
-            String input = C.input("Input Password:");
+            String input = C.input("Input Password:", String.class);
             if (input.equals(pw)) {
                 ret = true;
             }

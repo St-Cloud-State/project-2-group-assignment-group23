@@ -70,21 +70,12 @@ public class Manager_State extends State{
         panel.add(new JLabel("Name:"));
         panel.add(name);
 
-        NumberFormat int_form = NumberFormat.getIntegerInstance();
-        NumberFormatter int_former = new NumberFormatter(int_form);
-        int_former.setValueClass(Integer.class);
-        int_former.setAllowsInvalid(false);
-        JFormattedTextField quantity = new JFormattedTextField(int_former);
+        JFormattedTextField quantity = new JFormattedTextField(Context.int_former);
         quantity.setColumns(10);
         panel.add(new JLabel("Quantity:"));
         panel.add(quantity);
 
-        NumberFormat double_form = NumberFormat.getNumberInstance();
-        double_form.setGroupingUsed(false);
-        double_form.setMaximumFractionDigits(2);
-        NumberFormatter double_former = new NumberFormatter(double_form);
-        double_former.setValueClass(Double.class);
-        JFormattedTextField price = new JFormattedTextField(double_former);
+        JFormattedTextField price = new JFormattedTextField(Context.double_former);
         price.setColumns(10);
         panel.add(new JLabel("Price:"));
         panel.add(price);
@@ -111,10 +102,11 @@ public class Manager_State extends State{
 
     void B2_action() {
         Context C = Context.get_instance();
-        try {
-            int uid = Integer.parseInt(C.input("Input Product UID:"));
+        Integer uid = C.input("Input Product UID:", Integer.class);
 
+        if (uid != null) {
             boolean found_it = false;
+
             for (Product p : Product.master_product_list) {
                 if (p.get_uid() == uid) {
                     found_it = true;
@@ -130,8 +122,6 @@ public class Manager_State extends State{
             if (found_it == false) {
                 C.print("Didn't find that product.");
             }
-        } catch (NumberFormatException e) {
-            C.print("Invalid Value: " + e);
         }
     }
 

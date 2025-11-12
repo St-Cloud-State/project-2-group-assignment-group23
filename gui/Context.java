@@ -1,5 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
+import javax.swing.text.*;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,14 @@ public class Context {
     // Provides an easy means for states to get the context manager
     private static Context instance;
     public static Context get_instance() {return Context.instance;}
+
+
+    // Formatters for input from swing popups
+    public static DefaultFormatter string_former;
+    private static NumberFormat int_form;
+    public static NumberFormatter int_former;
+    private static NumberFormat double_form;
+    public static NumberFormatter double_former;
 
 
     // Primary Constructor.
@@ -51,8 +62,20 @@ public class Context {
             transition_matrix.add(row);
         }
 
-        // Finally, set the current state to S0
+        // Set the current state to S0
         this.current_state = states[0];
+
+        // Now prepare the IO formatters
+        Context.string_former = new DefaultFormatter();
+        Context.int_form = NumberFormat.getIntegerInstance();
+        Context.int_former = new NumberFormatter(int_form);
+        Context.int_former.setAllowsInvalid(false);
+        Context.int_former.setValueClass(Integer.class);
+        Context.double_form = NumberFormat.getNumberInstance();
+        Context.double_form.setGroupingUsed(false);
+        Context.double_form.setMaximumFractionDigits(2);
+        Context.double_former = new NumberFormatter(double_form);
+        Context.double_former.setValueClass(Double.class);
     }
 
 
@@ -103,5 +126,39 @@ public class Context {
 
     public String input(String reason_why) {
         return JOptionPane.showInputDialog(null, reason_why);
+    }
+
+    public <T> T input(String reason_why, Class<T> type) {
+        try {
+            JPanel panel = new JPanel();
+            panel.add(new JLabel(reason_why));
+            DefaultFormatter former = string_former;
+
+            if (type == Integer.class) {
+                former = int_former;
+            } else if (type == Double.class) {
+                former = double_former;
+            }
+
+            JFormattedTextField field = new JFormattedTextField(former);
+            field.setColumns(10);
+            panel.add(field);
+
+            int ret = JOptionPane.showConfirmDialog(null, 
+                                                    panel, 
+                                                    "", 
+                                                    JOptionPane.OK_CANCEL_OPTION, 
+                                                    JOptionPane.PLAIN_MESSAGE
+                                                    );
+
+            if (ret == JOptionPane.OK_OPTION) {
+                return type.cast(field.getValue());
+            } else {
+                return null;
+            }
+
+        } catch (Exception e) {
+            throw new AssertionError("Idk what you did but dont do that.");
+        }
     }
 }

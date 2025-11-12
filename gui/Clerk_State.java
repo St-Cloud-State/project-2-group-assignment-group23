@@ -1,8 +1,5 @@
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
-
 import java.awt.*;
-import java.text.NumberFormat;
 
 public class Clerk_State extends State{
     // Primary Constructor
@@ -164,21 +161,12 @@ public class Clerk_State extends State{
     void B5_action(JFrame frame) {
         JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
 
-        NumberFormat int_form = NumberFormat.getIntegerInstance();
-        NumberFormatter int_former = new NumberFormatter(int_form);
-        int_former.setValueClass(Integer.class);
-        int_former.setAllowsInvalid(false);
-        JFormattedTextField uid = new JFormattedTextField(int_former);
+        JFormattedTextField uid = new JFormattedTextField(Context.int_former);
         uid.setColumns(10);
         panel.add(new JLabel("UID:"));
         panel.add(uid);
 
-        NumberFormat double_form = NumberFormat.getNumberInstance();
-        double_form.setGroupingUsed(false);
-        double_form.setMaximumFractionDigits(2);
-        NumberFormatter double_former = new NumberFormatter(double_form);
-        double_former.setValueClass(Double.class);
-        JFormattedTextField payment = new JFormattedTextField(double_former);
+        JFormattedTextField payment = new JFormattedTextField(Context.double_former);
         payment.setColumns(10);
         panel.add(new JLabel("Payment:"));
         panel.add(payment);
@@ -214,7 +202,7 @@ public class Clerk_State extends State{
         Context C = Context.get_instance();
         int next_state = Context.security_handle.verify_password(Security.Entity.CLERK) ? 3 : 0;
         if (next_state == 3) {
-            int client_id = Integer.parseInt(C.input("Input Client ID:"));
+            int client_id = C.input("Input Client ID:", Integer.class);
             boolean found = false;
             for (Client client : Client.master_client_list) {
                 if (client.get_uid() == client_id) {

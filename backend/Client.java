@@ -71,17 +71,7 @@ public class Client {
     }
 
     // Prompts user to purchase everything in their wishlist.
-    public Invoice process_order() {
-        Wishlist purchase_list = new Wishlist(); // Create a new wishlist to hold our purchases
-
-        // Go through the list and get everything we want from it.
-        for (Product product : this.wishlist.get_product_list()) {
-            if (product.prompt_user_to_purchase(this))
-            {
-                purchase_list.add_product(product);
-            }
-        }
-
+    public Invoice process_order(Wishlist purchase_list) {
         // Remove everything we want to purchase from our wishlist.
         for (Product product : purchase_list.get_product_list()) {
             this.wishlist.remove_product(product);
