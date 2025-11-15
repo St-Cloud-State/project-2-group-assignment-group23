@@ -124,7 +124,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client UID-" + this.uid + "  Name-" + this.name + "  Address-" + this.address + "  Balance-" + this.balance;
+        return "Client UID-" + this.uid + "  Name-" + this.name + "  Address-" + this.address + "  Balance- " + this.balance;
     }
 }
 

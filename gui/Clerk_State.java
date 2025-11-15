@@ -117,7 +117,7 @@ public class Clerk_State extends State{
     void B3_action(JFrame frame) {
         String clients = "";
         for (Client client : Client.master_client_list) {
-            clients += client.toString();
+            clients += client.toString() + "\n";
         }
 
         JDialog popup = new JDialog(frame, "Client List", false);

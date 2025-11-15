@@ -16,7 +16,7 @@ public class Gui {
         };
 
         // Adds products to make my testing easier
-        if (true) {
+        if (false) {
             try {
                 File path = new File(System.getProperty("user.dir"), "products.csv");
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
